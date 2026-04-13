@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 // ── MenuItem ─────────────────────────────────────
 
@@ -26,6 +27,8 @@ public class CartItem
 
     // Foreign key
     public int CartId { get; set; }
+
+    [JsonIgnore]
     public Cart Cart { get; set; } = null!;
 
     public int MenuItemId { get; set; }

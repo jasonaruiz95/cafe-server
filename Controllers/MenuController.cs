@@ -15,8 +15,8 @@ public class MenuController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpGet(Name = "")]
-    public async Task<IActionResult> GetItems()
+    [HttpGet]
+    public async Task<IActionResult> GetMenuItems()
     {
         return new JsonResult(await _dbService.GetMenuItemsAsync());
     }
