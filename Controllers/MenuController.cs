@@ -20,4 +20,11 @@ public class MenuController : ControllerBase
     {
         return new JsonResult(await _dbService.GetMenuItemsAsync());
     }
+
+
+    [HttpPost]
+    public async Task<IActionResult> AddMenuItem()
+    {
+        return Ok();
+    }
 }

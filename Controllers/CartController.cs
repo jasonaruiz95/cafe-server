@@ -21,17 +21,32 @@ public class CartController : ControllerBase
         return new JsonResult(await _dbService.GetCartAsync());
     }
 
+    [AllowAnonymous]
     [HttpPost("items")]
-    public async Task<IActionResult> AddCartItem(int menuItemId, int cartId)
+    public async Task<IActionResult> AddCartItem([FromBody] UpdateCartItemDTO dto)
     {
-        return new JsonResult(await _dbService.AddItemToCartAsync(menuItemId, cartId));
+        return new JsonResult(await _dbService.AddItemToCartAsync(dto));
+    }
+    [AllowAnonymous]
+    [HttpPatch("items/{cartItemId}")]
+    public async Task<IActionResult> UpdateCartItem([FromBody] UpdateCartItemDTO dto)
+    {
+        return new JsonResult(await _dbService.UpdateCartItemAsync(dto));
     }
 
 
+    [AllowAnonymous]
     [HttpDelete("items/{cartItemId}")]
-    public async Task<IActionResult> DeleteCartItem(int cartId, int cartItemId)
+    public async Task<IActionResult> DeleteCartItem(int cartItemId)
     {
-        return new JsonResult(await _dbService.DeleteItemFromCartAsync(cartId, cartItemId));
+        return new JsonResult(await _dbService.DeleteItemFromCartAsync(cartItemId));
+    }
+
+    [AllowAnonymous]
+    [HttpDelete("{cartId}")]
+    public async Task<IActionResult> ClearCart(int cartId)
+    {
+        return new JsonResult(await _dbService.ClearCart(cartId));
     }
 
 
