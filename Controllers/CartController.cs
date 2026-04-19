@@ -16,9 +16,9 @@ public class CartController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> GetCartItems()
+    public async Task<IActionResult> GetCartItems(string? UserId)
     {
-        return new JsonResult(await _dbService.GetCartAsync());
+        return new JsonResult(await _dbService.GetCartAsync(UserId));
     }
 
     [AllowAnonymous]

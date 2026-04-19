@@ -5,5 +5,6 @@ public class UpdateCartItemDTO
 
     public string? Notes { get; set; }
     public int CartId { get; set; }
+    public int CartItemId { get; set; }
 
 }

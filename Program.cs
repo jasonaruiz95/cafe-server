@@ -12,7 +12,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(connectionString));
@@ -23,6 +23,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDbService, DbService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -38,15 +39,19 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
-    app.MapScalarApiReference();
+    // app.MapOpenApi();
+    app.UseSwagger();
+    app.MapScalarApiReference(options =>
+    {
+        options.WithOpenApiRoutePattern("/swagger/v1/swagger.json");
+    });
 
 }
 app.MapIdentityApi<IdentityUser>();
 app.UseHttpsRedirection();
-app.UseCors("AllowFrontend"); // must be before UseAuthorization
+app.UseCors("AllowFrontend");
+app.UseAuthentication(); // <-- add this, required for Identity cookies
 app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllers();
-
 app.Run();
